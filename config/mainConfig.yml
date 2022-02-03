@@ -1,0 +1,23 @@
+---
+#####
+# Main configuration file
+#####
+
+# Vars used to manage podman images
+imgName: "httpd"
+imgTags: ["v1", "v2", "prod"]
+tagDest: "{{ imgTags[2] }}"
+registryHost: "192.168.110.178"
+
+# Vars used to manage RHEL images
+imageIDOrig: "e2155670d6fac5e938823c53b280891aaffbaf33a60159cce9a975a3956ce9b8"
+imageString: "v1"
+fileImgSignature: "/etc/greenboot/orig.txt"
+
+# OS commands
+podmanCmd: "/usr/bin/podman"
+systemctlCmd: "/usr/bin/systemctl"
+sudoCmd: "/usr/bin/sudo"
+catCmd: "/usr/bin/cat"
+awkCmd: "/usr/bin/awk"
+...
