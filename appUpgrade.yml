@@ -1,0 +1,26 @@
+- hosts: controllers
+  gather_facts: true
+  become: true
+  vars_files:
+    - config/mainConfig.yml
+
+  tasks: 
+    - name: Pulling image with all the tags
+      containers.podman.podman_image: 
+        name: "{{ registryHost  }}:5000/{{ imgName }}"
+        pull: true
+        state: present
+        tag: "{{ item }}"
+      loop: "{{ imgTags }}"
+
+    - name: "Renaming image {{ inventory_hostname }}:5000/{{ imgName }}:{{ tagOrig }} -> {{ inventory_hostname }}:5000/{{ imgName }}:{{ tagDest }}"
+      command: "{{ podmanCmd }} tag {{ registryHost }}:5000/{{ imgName }}:{{ tagOrig }} {{ registryHost }}:5000/{{ imgName }}:{{ tagDest }}"
+
+    - name: Pushing the new image
+      containers.podman.podman_image:
+        name: "{{ registryHost }}:5000/{{ imgName }}:{{ tagDest }}" 
+        pull: false
+        push: true
+        state: present
+        push_args:
+          dest: "{{ registryHost }}:5000/{{ imgName }}:{{ tagDest }}"

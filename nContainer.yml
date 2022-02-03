@@ -1,0 +1,19 @@
+- hosts: "{{ targetHosts }}"
+  gather_facts: true
+  become: true
+  vars:
+    containersNumber: 0
+  
+  tasks:
+    - name: Getting running containers
+      containers.podman.podman_container_info:
+      register: output
+
+    - loop: "{{ output.containers }}"
+      when: item.State.Running == true
+      set_fact:
+        containersNumber: "{{ containersNumber | int + 1 }}"
+
+    - debug:
+        msg: 
+          - "Number of container running on {{ inventory_hostname }}: {{ containersNumber }}"

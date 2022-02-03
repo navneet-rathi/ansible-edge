@@ -1,0 +1,48 @@
+- hosts: "{{ targetHosts }}"
+  gather_facts: true
+  vars_files:
+    - config/mainConfig.yml
+
+  tasks: 
+
+    - name: Getting image ID
+      shell: 
+        cmd: "{{ catCmd }} {{ fileImgSignature }} | {{ awkCmd }} '{print $2}'"
+      register: imageID
+
+    - when: imageID.stdout != imageIDOrig 
+      set_fact:
+        imageString: "v2"
+
+    - debug: 
+        msg:
+          - "Current image version: {{ imageString }}"
+
+    - name: "Trying to upgrade {{ inventory_hostname }} OS"
+      shell:
+        cmd: "{{ sudoCmd }} {{ systemctlCmd }} start rpm-ostreed-automatic"
+      become: true
+
+    - name: "Waiting for {{ inventory_hostname }} up & running"
+      wait_for:
+        port: 22
+        delay: 200
+        host: "{{ inventory_hostname }}"
+        timeout: 600
+      delegate_to: localhost  # If not delegate to localhost, the playbook try to connect to the remote node
+
+    - name: Getting image ID
+      shell:   
+        cmd: "{{ catCmd }} {{ fileImgSignature }} | {{ awkCmd }} '{print $2}'"
+      register: imageID
+
+    - when: imageID.stdout == imageIDOrig
+      set_fact:
+        imageString: "FAIL. Running version v1"
+
+    - when: imageID.stdout != imageIDOrig
+      set_fact:
+        imageString: "OK. Running version v2"
+
+    - debug: 
+        msg: "The upgrade was {{ imageString }}"
