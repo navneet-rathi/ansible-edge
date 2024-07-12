@@ -1,0 +1,8 @@
+---
+collections:
+  - name: containers.podman
+  - name: fedora.linux_system_roles
+  - name: community.general
+  - name: community.mysql
+  - name: community.grafana
+  - name: ansible.posix
