@@ -10,7 +10,7 @@ tagDest: "{{ imgTags[2] }}"
 registryHost: "192.168.1.11"
 
 # Vars used to manage RHEL images
-imageIDOrig: "e2155670d6fac5e938823c53b280891aaffbaf33a60159cce9a975a3956ce9b8"
+imageIDOrig: "6cc2700d655088997f72eaa1221994bfd18a1c3033c089e3342319bf02081c7f"
 imageString: "v1"
 fileImgSignature: "/etc/greenboot/orig.txt"
 
