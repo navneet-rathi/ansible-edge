@@ -7,7 +7,7 @@
 
     - name: Getting image ID
       shell: 
-        cmd: "{{ catCmd }} {{ fileImgSignature }} | {{ awkCmd }} '{print $2}'"
+        cmd: "rpm-ostree status |grep Commit |head -1 |awk -F ': ' '{print$2}'"
       register: imageID
 
     - when: imageID.stdout != imageIDOrig 
