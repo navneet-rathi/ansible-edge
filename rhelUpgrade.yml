@@ -25,9 +25,6 @@
 
     - name: "Waiting for {{ inventory_hostname }} up & running"
       ansible.builtin.wait_for:
-        port: 22
-        delay: 25
-        host: "{{ inventory_hostname }}"
         timeout: 600
       delegate_to: localhost  # If not delegate to localhost, the playbook try to connect to the remote node
       ignore_errors: true
