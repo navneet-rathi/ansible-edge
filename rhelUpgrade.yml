@@ -6,7 +6,7 @@
   tasks: 
 
     - name: Getting image ID
-      shell: 
+      ansible.builtin.shell: 
         cmd: "rpm-ostree status |grep Commit |head -1 |awk -F ': ' '{print$2}'"
       register: imageID
 
@@ -14,17 +14,17 @@
       set_fact:
         imageString: "v2"
 
-    - debug: 
+    - ansible.builtin.debug: 
         msg:
           - "Current image version: {{ imageString }}"
 
     - name: "Trying to upgrade {{ inventory_hostname }} OS"
-      shell:
+      ansible.builtin.shell:
         cmd: "{{ sudoCmd }} {{ systemctlCmd }} start rpm-ostreed-automatic"
       become: true
 
     - name: "Waiting for {{ inventory_hostname }} up & running"
-      wait_for:
+      ansible.builtin.wait_for:
         port: 22
         delay: 25
         host: "{{ inventory_hostname }}"
@@ -33,7 +33,7 @@
       ignore_errors: true
 
     - name: Getting image ID
-      shell:   
+      ansible.builtin.shell:   
         cmd: "rpm-ostree status |grep Commit |head -1 |awk -F ': ' '{print$2}'"
       register: imageID
 
@@ -45,5 +45,5 @@
       set_fact:
         imageString: "OK. Running version v2"
 
-    - debug: 
+    - ansible.builtin.debug: 
         msg: "The upgrade was {{ imageString }}"
