@@ -28,6 +28,7 @@
         port: 22
         delay: 200
         host: "{{ inventory_hostname }}"
+        search_regex: OpenSSH
         timeout: 600
       delegate_to: controllers  # If not delegate to localhost, the playbook try to connect to the remote node
       ignore_errors: true
