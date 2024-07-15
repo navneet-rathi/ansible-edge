@@ -26,7 +26,7 @@
     - name: "Waiting for {{ inventory_hostname }} up & running"
       wait_for:
         port: 22
-        delay: 200
+        delay: 25
         host: "{{ inventory_hostname }}"
         search_regex: OpenSSH
         timeout: 600
