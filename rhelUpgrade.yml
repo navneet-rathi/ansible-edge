@@ -30,6 +30,7 @@
         host: "{{ inventory_hostname }}"
         timeout: 600
       delegate_to: controllers  # If not delegate to localhost, the playbook try to connect to the remote node
+      ignore_errors: true
 
     - name: Getting image ID
       shell:   
