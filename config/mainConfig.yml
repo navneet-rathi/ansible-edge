@@ -7,7 +7,7 @@
 imgName: "httpd"
 imgTags: ["v1", "v2", "prod"]
 tagDest: "{{ imgTags[2] }}"
-registryHost: "192.168.1.11"
+registryHost: "192.168.1.5"
 
 # Vars used to manage RHEL images
 imageIDOrig: "7b7bbe552b98fa123a4148c3a136264283f041e963eb536277e0235df751f6ba"
